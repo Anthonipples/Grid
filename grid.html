@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS CA grid</title>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+        <style>
+        #container {
+                    position: relative;
+                    outline:2px solid #000;
+                    font-size: 10;
+                    margin:auto;
+                    height:960px;
+                    width:960px;
+                    padding: 0;
+                    border: none;
+                }
+                #code {
+                    outline:2px solid #000;
+                    font-size: 10;
+                    margin:auto;
+                    width:960px;
+                    padding: 0;
+                    border: none;
+                }
+                #form{
+                    outline:2px solid #000;
+                    font-size: 10;
+                    margin:auto;
+                    width:960px;
+                    padding: 0;
+                    border: none;
+                }
+
+                .grid {
+                    text-align: center;
+                    margin:0;
+                    padding:0;
+                    border:none;
+                    outline:1px solid #000;
+                    display:inline-block;
+                }
+        </style>
+</head>
+<body>
+    <script>
+
+        var line = [];
+
+
+
+            function createGrid(length,height){
+                var ledNum = 0;
+                for (var rows = 0; rows < height; rows++){
+                    for (var columns = 0; columns < length; columns++){
+                        
+                        $("#container").append("<div class='grid' id='"+ ledNum+"'>"+ledNum+"</div>");
+                        ledNum++;
+                    };
+                };
+
+                $(".grid").width(960/length);
+                $(".grid").height(960/height);
+            };
+
+            $(document).ready(function(){
+
+                $("form").submit(function(e){
+                        var name = $('#name').val(); 
+                        var gridX = $('#length').val(); 
+                        var gridY = $('#height').val(); 
+
+                        console.log(name);
+                        e.preventDefault();
+                        createGrid(gridX,gridY);
+                            $("#fheader").append("void "+name+"(){</br>int r = 0;</br>int rgb = 255;</br>for (int j = 0; j <= 255; j = j + 15) {</br>r = (j / 255.0) * rgb;");
+                            //Spit out the code
+                                $('.grid').click(function(){
+                                    $(this).css("background-color", "black");
+                                    $(this).css("color", "white");
+                                line.push("for (int i =  "+$(this).attr('id')+" ; i <=  "+$(this).attr('id')+"  ; i++) { leds[i] = CRGB(r,r,r); }");
+                                $("#lines").append("for (int i =  "+$(this).attr('id')+" ; i <=  "+$(this).attr('id')+"  ; i++) { leds[i] = CRGB(r,r,r); }</br>");
+                            });
+                //
+                    $("#ffooter").append("</br>}</br>}");
+                });
+
+
+                
+                
+                
+               
+            });
+                    
+                
+
+
+            
+    
+    </script>
+    <div id="form">
+        <form id="setFunction" action="">
+            <input id="name" type="text" placeholder="Function name">
+            <input id="length" type="text" placeholder="Length">
+            <input id="height" type="text" placeholder="height">
+            <input type="submit" value="SET">
+        </form>
+    </div>
+    <div id="container"></div>
+    <div id="code">
+        <div id="fheader"></div>
+        <div id="lines"></div>
+        <div id="ffooter"></div>
+    </div>
+</body>
+</html>
